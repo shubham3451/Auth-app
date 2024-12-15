@@ -34,7 +34,8 @@ ALLOWED_HOSTS = ['*']
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://auth-app-production-754b.up.railway.app/'
+    'https://www.auth-app-production-754b.up.railway.app'
+    'https://auth-app-production-754b.up.railway.app'
 ]
 INSTALLED_APPS = [
     'django.contrib.admin',

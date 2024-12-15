@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .forms import SignUpForm  
 from django.contrib.auth.forms import AuthenticationForm
 
 # Login view
@@ -22,20 +23,41 @@ def login_view(request):
     # Render the login template with the form (and any messages if they exist)
     return render(request, 'login.html', {'form': form})
 
+# # Signup view
+# def signup_view(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password1')
+#             user = authenticate(username=username, password=password)
+#             login(request, user)
+#             return redirect('dashboard')
+#     else:
+#         form = UserCreationForm()
+#     return render(request, 'signup.html', {'form': form})
+
+
 # Signup view
 def signup_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('dashboard')
+            return redirect('dashboard')  # Redirect to the dashboard after successful login
+        else:
+            # If form is invalid, it will show validation error messages
+            messages.error(request, 'Please correct the errors below.')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
+
     return render(request, 'signup.html', {'form': form})
+
 
 # Logout view
 def logout_view(request):
